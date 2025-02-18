@@ -1,5 +1,6 @@
 import { Separator } from "@/components/ui/separator";
-import { ModeToggle } from "./mode-toggle";
+import { ThemeToggle } from "./ThemeToggle";
+
 import {
   Avatar,
   AvatarImage,
@@ -71,13 +72,13 @@ export const Sidebar = () => {
       <Separator />
       <div className="mt-auto">
         <div className="flex items-center justify-center space-x-3 py-4">
-          <ModeToggle />
+          <ThemeToggle />
           <Avatar>
             <AvatarImage
               src="https://github.com/shadcn.png"
               alt="User Avatar"
             />
-            <AvatarFallback>CN</AvatarFallback>
+            <AvatarFallback>profile avatar</AvatarFallback>
           </Avatar>
         </div>
       </div>
