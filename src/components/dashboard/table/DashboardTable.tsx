@@ -1,15 +1,8 @@
 import React, {
   useCallback,
-  useEffect,
-  useRef,
   useMemo,
 } from "react";
 import {
-  useReactTable,
-  getCoreRowModel,
-  getPaginationRowModel,
-  getFilteredRowModel,
-
   PaginationState,
   OnChangeFn,
 } from "@tanstack/react-table";
@@ -17,8 +10,6 @@ import { Input } from "@/components/ui/input";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState, AppDispatch } from "@/store";
 import {
-  fetchAllSpells,
-  fetchSpellDetails,
   selectPaginatedSpells,
   selectMissingSpellIndexes,
   selectLoadingState,
@@ -30,6 +21,9 @@ import {
 import { DashboardTableColumn } from "./DashboardTableColumn";
 import { DashboardTablePagination } from "./DashboardTablePagination";
 import { DashboardTableContent } from "./DashboardTableContent";
+import { useFetchSpells } from "@/hooks/useFetchSpells";
+import { useFetchSpellDetails } from "@/hooks/useFetchSpellDetails";
+import { useDashboardTable } from "@/hooks/useDashboardTable";
 
 export const DashboardTable: React.FC = React.memo(() => {
   const dispatch = useDispatch<AppDispatch>();
@@ -52,35 +46,6 @@ export const DashboardTable: React.FC = React.memo(() => {
     selectMissingSpellIndexes
   );
 
-  // ref to track which spell details have been dispatched so we don't trigger duplicates.
-  const dispatchedSpellDetailsRef = useRef<Set<string>>(
-    new Set()
-  );
-
-  // on mount: fetch all spells if not loaded
-  useEffect(() => {
-    if (allSpells.length === 0 && !loading.allSpells) {
-      dispatch(fetchAllSpells());
-    }
-  }, [allSpells.length, loading.allSpells, dispatch]);
-
-  // fetch missing spell details only once per spell
-  useEffect(() => {
-    if (
-      !loading.spellDetails &&
-      missingSpellIndexes.length > 0
-    ) {
-      missingSpellIndexes.forEach((spellIndex) => {
-        if (
-          !dispatchedSpellDetailsRef.current.has(spellIndex)
-        ) {
-          dispatchedSpellDetailsRef.current.add(spellIndex);
-          dispatch(fetchSpellDetails(spellIndex));
-        }
-      });
-    }
-  }, [missingSpellIndexes, loading.spellDetails, dispatch]);
-
   const columns = useMemo(() => DashboardTableColumn(), []);
 
   // use useCallback for pagination handling
@@ -102,24 +67,24 @@ export const DashboardTable: React.FC = React.memo(() => {
       [dispatch, pageIndex, rowCount]
     );
 
-  const table = useReactTable({
-    data: paginatedSpells,
+
+
+  useFetchSpells(dispatch, allSpells, loading.allSpells);
+
+  useFetchSpellDetails(
+    dispatch,
+    missingSpellIndexes,
+    loading.spellDetails
+  );
+
+  const table = useDashboardTable(
+    paginatedSpells,
     columns,
-    getCoreRowModel: getCoreRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
-    getFilteredRowModel: getFilteredRowModel(),
-    state: {
-      globalFilter,
-      pagination: {
-        pageIndex,
-        pageSize: rowCount,
-      },
-    },
-    onGlobalFilterChange: setGlobalFilter,
-    onPaginationChange: handlePaginationChange,
-    manualPagination: true,
-    pageCount: Math.ceil(allSpells.length / rowCount),
-  });
+    pageIndex,
+    rowCount,
+    globalFilter,
+    handlePaginationChange
+  );
 
   if (loading.allSpells && allSpells.length === 0) {
     return <div>Loading spell list...</div>;

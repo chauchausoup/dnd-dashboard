@@ -15,7 +15,7 @@ import {
 } from "@tanstack/react-table";
 
 interface Spell {
-  index:string;
+  index: string;
   name: string;
   level: number;
   url: string;
@@ -32,9 +32,7 @@ interface DashboardTableContentProps {
   };
 }
 
-export const DashboardTableContent: React.FC<
-  DashboardTableContentProps
-> = ({ columns, table, loading }) => {
+export const DashboardTableContent: React.FC<DashboardTableContentProps> = ({ columns, table, loading }) => {
   return (
     <Table>
       <TableCaption>A list of D&D 5e spells.</TableCaption>
