@@ -1,13 +1,28 @@
-import path from 'path'
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
+import { globSync } from 'glob';
+import path from 'path';
 
-// https://vite.dev/config/
+function getUIComponentFiles() {
+  const files = globSync('src/components/ui/**/*.tsx');
+  return files.map(file => path.resolve(__dirname, file));
+}
+
 export default defineConfig({
   plugins: [react()],
   resolve: {
     alias: {
-      "@": path.resolve(__dirname, "./src"),
+      '@': path.resolve(__dirname, './src'),
     },
   },
-})
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          vendor: ['react', 'react-dom', 'react-router', 'react-redux', 'react-router'],
+          ui: getUIComponentFiles(),
+        },
+      },
+    },
+  },
+});
