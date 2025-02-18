@@ -1,12 +1,10 @@
-import { ThemeProvider } from "@/components/theme-provider"
-import { ModeToggle } from "./components/mode-toggle";
+import { ThemeProvider } from "@/components/context/theme-provider"
+import DashboardContainer from "./components/dashboard-container";
 
-function App() {
+export default function App() {
   return (
     <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
-      <ModeToggle/>
+      <DashboardContainer/>
     </ThemeProvider>
   )
 }
-
-export default App
