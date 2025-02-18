@@ -1,4 +1,4 @@
-import { DashboardTable } from "./dashboard-table";
+import { DashboardTable } from "./table/dashboard-table";
 
 export const MainContent = () => {
     return (
