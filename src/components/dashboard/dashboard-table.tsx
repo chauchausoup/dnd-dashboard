@@ -219,7 +219,6 @@ export const DashboardTable: React.FC = React.memo(() => {
   return (
     <div>
       <div className="flex items-center space-x-2 mb-4">
-        <Label htmlFor="search">Search:</Label>
         <Input
           type="text"
           id="search"
