@@ -1,4 +1,4 @@
-name: CI  # Or your preferred name
+name: CI
 
 on:
   push:
@@ -17,30 +17,10 @@ jobs:
       - name: Setup pnpm
         uses: pnpm/action-setup@v2
         with:
-          version: 8
-          run_install: false
-
-      - name: Get pnpm store directory
-        shell: bash
-        run: |
-          EXPORTED_PNPM_HOME="$(pnpm env get --global pnpm_home)"
-          if [ -n "$EXPORTED_PNPM_HOME" ]; then
-            echo "pnpm_home=$EXPORTED_PNPM_HOME" >> $GITHUB_OUTPUT
-          fi
-        id: pnpm-cache-home
-        working-directory: .
-
-      - name: Setup pnpm cache
-        uses: actions/cache@v3
-        with:
-          path: |
-            ${{ steps.pnpm-cache-home.outputs.pnpm_home }}/store/v3
-          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
-          restore-keys: |
-            ${{ runner.os }}-pnpm-store-
+          version: 8 
 
       - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+        run: pnpm install
 
       - name: Run tests
         run: pnpm run test
