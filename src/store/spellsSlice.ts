@@ -65,8 +65,6 @@ export const fetchAllSpells = createAsyncThunk<Spell[], void>(
 export const fetchSpellDetails = createAsyncThunk<SpellDetail, string>(
   'spells/fetchSpellDetails',
   async (index: string) => {
-    console.log(`Fetching details for spell: ${index}`);
-
     let details = await db.spellDetails.get(index);
     if (!details) {
       details = (await fetchData(`https://www.dnd5eapi.co/api/spells/${index}`)) as SpellDetail;
@@ -131,8 +129,6 @@ export const selectAllSpells = (state: RootState) => state.spells.allSpells;
 export const selectLoadingState = (state: RootState) => state.spells.loading;
 export const selectError = (state: RootState) => state.spells.error;
 export const selectPagination = (state: RootState) => state.spells.pagination;
-export const selectSpellByIndex = (state: RootState, index: string) =>
-  state.spells.allSpells.find((spell) => spell.index === index);
 
 // memoized selector for paginated spells
 export const selectPaginatedSpells = createSelector(

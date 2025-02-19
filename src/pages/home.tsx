@@ -1,3 +1,5 @@
+import { Link } from "react-router";
+
 const Home = () => {
   return (
     <div className="p-4">
@@ -25,9 +27,9 @@ const Home = () => {
           </h2>
           <ul className="list-disc list-inside">
             <li>
-              <a href="/spells" className="text-blue-500">
-                Check Spells
-              </a>
+              <Link to="/spells" className={"text-blue-500"}>
+               Check Spells
+            </Link>
             </li>
             <li>Browse Classes</li>
             <li>Edit Profile</li>
