@@ -6,10 +6,6 @@ import React, {
   useMemo,
   useEffect,
 } from "react";
-import {
-  PaginationState,
-  OnChangeFn,
-} from "@tanstack/react-table";
 import { Input } from "@/components/ui/input";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState, AppDispatch } from "@/store";

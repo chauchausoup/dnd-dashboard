@@ -11,20 +11,20 @@ test.describe('App Navigation', () => {
   });
 
   test('should navigate to DashboardTable when clicking Spells link', async ({ page }) => {
-    await page.click('a[href="/spells"]');
-    await expect(page).toHaveURL('/spells');
+    await page.click('a[href="#/spells"]');
+    await expect(page).toHaveURL('/#/spells?page=1&rowCount=10');
     await expect(page.locator('body')).toContainText('NameLevelDescriptionCasting');
   });
 
   test('should navigate to About page', async ({ page }) => {
-    await page.click('a[href="/about"]');
-    await expect(page).toHaveURL('/about');
+    await page.click('a[href="#/about"]');
+    await expect(page).toHaveURL('/#/about');
     await expect(page.locator('body')).toContainText('About');
   });
 
   test('should navigate to Profile page', async ({ page }) => {
-    await page.click('a[href="/profile"]');
-    await expect(page).toHaveURL('/profile');
+    await page.click('a[href="#/profile"]');
+    await expect(page).toHaveURL('/#/profile');
     await expect(page.locator('body')).toContainText('Profile');
   });
 });

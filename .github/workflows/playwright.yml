@@ -24,3 +24,9 @@ jobs:
 
       - name: Run tests
         run: pnpm run test
+
+      - name: Install Playwright Browsers
+        run: pnpm playwright install --with-deps
+
+      - name: Run End-to-End tests
+        run: pnpm playwright test
