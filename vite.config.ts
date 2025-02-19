@@ -25,4 +25,10 @@ export default defineConfig({
       },
     },
   },
+  // @ts-ignore
+  test: {
+    globals: true,
+    environment: 'jsdom',
+    setupFiles: './src/setupTests.ts'
+  }
 });
