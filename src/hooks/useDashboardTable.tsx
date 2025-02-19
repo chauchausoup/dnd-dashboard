@@ -18,10 +18,12 @@ interface Spell {
 
 export function useDashboardTable(
   data: Spell[],
+  allSpells:Spell[],
   columns: ColumnDef<Spell>[],
   pageIndex: number,
   rowCount: number,
   globalFilter: string,
+  setGlobalFilter: OnChangeFn<string>,
   handlePaginationChange: OnChangeFn<PaginationState>
 ) {
   const table = useReactTable({
@@ -37,18 +39,10 @@ export function useDashboardTable(
         pageSize: rowCount,
       },
     },
-    onGlobalFilterChange: (updater) => {
-      if (typeof updater === "function") {
-        console.log(
-          "It is a function to update the data. Must call that function."
-        );
-      } else {
-        console.log("It isn't a function.");
-      }
-    },
+    onGlobalFilterChange: setGlobalFilter,
     onPaginationChange: handlePaginationChange,
     manualPagination: true,
-    pageCount: 100,
+    pageCount: Math.ceil(allSpells.length / rowCount),
   });
 
   return table;
